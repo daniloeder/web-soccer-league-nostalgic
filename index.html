@@ -30,56 +30,80 @@
             border-radius: 1.2px;
         }
 
-        .n {
+        .nothing {
             background-color: transparent;
         }
 
-        .b {
+        .face {
+            background-color: #ffcccc;
+        }
+
+        .black {
             background-color: black;
         }
 
-        .sb1 {
+        .s-black-1 {
             background-color: #213b21;
         }
 
-        .sb2 {
+        .s-black-2 {
             background-color: #315731;
         }
 
-        .sb3 {
+        .s-black-3 {
             background-color: #467c46;
         }
 
-        .g {
+        .grass {
             background-color: #67b667;
         }
 
-        .sg {
-            background-color: #8fc98f;
-        }
-
-        .y {
+        .yellow {
             background-color: yellow;
         }
 
-        .sy {
+        .s-yellow {
             background-color: #c0c000;
         }
 
-        .e {
+        .blue {
             background-color: #0000FF;
         }
 
-        .se {
+        .s-blue {
             background-color: #0000c0;
         }
 
-        .w {
+        .white {
             background-color: white;
         }
 
-        .sw {
+        .s-white {
             background-color: #c0c0c0;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .s-red {
+            background-color: #c00000;
+        }
+
+        .green {
+            background-color: #00FF00;
+        }
+
+        .s-green {
+            background-color: #00c000;
+        }
+
+        .orange {
+            background-color: orange;
+        }
+
+        .s-orange {
+            background-color: #c08000;
         }
     </style>
 
@@ -87,179 +111,203 @@
 
 <body>
     <div class="field" id="field"></div>
+
     <script>
-        const fieldPixels = Array(600 * 20).fill('g');
+        const fieldPixels = Array(600 * 20).fill('grass');
+
+        const country = 'brazil';
+
+        const countries = {
+            'brazil': ['yellow', 's-yellow', 'blue', 's-blue'],
+            'germany': ['white', 's-white', 'black', 's-black'],
+            'france': ['blue', 's-blue', 'white', 's-white'],
+            'spain': ['red', 's-red', 'yellow', 's-yellow'],
+            'argentina': ['blue', 's-blue', 'white', 's-white'],
+            'england': ['white', 's-white', 'red', 's-red'],
+            'italy': ['green', 's-green', 'white', 's-white'],
+            'netherlands': ['orange', 's-orange', 'white', 's-white'],
+            'portugal': ['red', 's-red', 'green', 's-green'],
+            'uruguay': ['blue', 's-blue', 'white', 's-white'],
+            'belgium': ['black', 's-black', 'yellow', 's-yellow'],
+            'sweden': ['blue', 's-blue', 'yellow', 's-yellow'],
+        }
+
+        const color_1 = countries[country][0];
+        const color_2 = countries[country][1];
+        const color_3 = countries[country][2];
+        const color_4 = countries[country][3];
+        const face = 'face';
 
         const playerFramesRunFront = [
             [
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'e', 'e', 'e', 'se', 'n'],
-                ['sb2', 'y', 'sy', 'y', 'sb2', 'n'],
-                ['sb2', 'y', 'sb2', 'sb2', 'n', 'n'],
-                ['n', 'sb2', 'sb2', 'n', 'n', 'n']
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_3, color_3, color_3, color_4, 'nothing'],
+                ['s-black-2', color_1, color_2, color_1, 's-black-2', 'nothing'],
+                ['s-black-2', color_1, 's-black-2', 's-black-2', 'nothing', 'nothing'],
+                ['nothing', 's-black-2', 's-black-2', 'nothing', 'nothing', 'nothing']
             ],
             [
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'e', 'e', 'e', 'e', 'sb2'],
-                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
-                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
-                ['n', 'n', 'sb3', 'sb3', 'n', 'n']
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_3, color_3, color_3, color_3, 's-black-2'],
+                ['nothing', 's-black-2', color_1, color_1, 's-black-2', 'nothing'],
+                ['nothing', 's-black-2', color_1, color_1, 's-black-2', 'nothing'],
+                ['nothing', 'nothing', 's-black-3', 's-black-3', 'nothing', 'nothing']
             ],
             [
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['n', 'se', 'e', 'e', 'e', 'sb2'],
-                ['n', 'sb2', 'y', 'sy', 'y', 'sb2'],
-                ['n', 'n', 'sb2', 'sb2', 'y', 'sb2'],
-                ['n', 'n', 'n', 'sb3', 'sb3', 'n']
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['nothing', color_4, color_3, color_3, color_3, 's-black-2'],
+                ['nothing', 's-black-2', color_1, color_2, color_1, 's-black-2'],
+                ['nothing', 'nothing', 's-black-2', 's-black-2', color_1, 's-black-2'],
+                ['nothing', 'nothing', 'nothing', 's-black-3', 's-black-3', 'nothing']
             ],
             [
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'e', 'e', 'e', 'e', 'sb2'],
-                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
-                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
-                ['n', 'n', 'sb3', 'sb3', 'n', 'n']
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_3, color_3, color_3, color_3, 's-black-2'],
+                ['nothing', 's-black-2', color_1, color_1, 's-black-2', 'nothing'],
+                ['nothing', 's-black-2', color_1, color_1, 's-black-2', 'nothing'],
+                ['nothing', 'nothing', 's-black-3', 's-black-3', 'nothing', 'nothing']
             ]
         ];
 
         const playerFramesRunBack = [
             [
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['n', 'sb1', 'sy', 'sy', 'sb1', 'n'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'e', 'e', 'e', 'se', 'n'],
-                ['n', 'sb2', 'y', 'sy', 'sb2', 'n'],
-                ['n', 'sb2', 'y', 'sb2', 'n', 'n'],
-                ['n', 'sb3', 'sy', 'sb3', 'n', 'n']
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['nothing', 's-black-1', 'face', 'face', 's-black-1', 'nothing'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_3, color_3, color_3, color_4, 'nothing'],
+                ['nothing', 's-black-2', color_1, color_2, 's-black-2', 'nothing'],
+                ['nothing', 's-black-2', color_1, 's-black-2', 'nothing', 'nothing'],
+                ['nothing', 's-black-3', color_2, 's-black-3', 'nothing', 'nothing']
             ],
             [
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['n', 'sb1', 'sy', 'sy', 'sb1', 'n'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'e', 'e', 'e', 'e', 'sb2'],
-                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
-                ['n', 'sb3', 'sy', 'sy', 'sb3', 'n'],
-                ['n', 'sb3', 'sb2', 'sb2', 'sb3', 'n']
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['nothing', 's-black-1', 'face', 'face', 's-black-1', 'nothing'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_3, color_3, color_3, color_3, 's-black-2'],
+                ['nothing', 's-black-2', color_1, color_1, 's-black-2', 'nothing'],
+                ['nothing', 's-black-3', color_2, color_2, 's-black-3', 'nothing'],
+                ['nothing', 's-black-3', 's-black-2', 's-black-2', 's-black-3', 'nothing']
             ],
             [
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['n', 'sb1', 'sy', 'sy', 'sb1', 'n'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['n', 'se', 'e', 'e', 'e', 'sb2'],
-                ['n', 'sb2', 'sy', 'y', 'sb2', 'n'],
-                ['n', 'n', 'sb2', 'y', 'sb2', 'n'],
-                ['n', 'n', 'sb3', 'sy', 'sb3', 'n']
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['nothing', 's-black-1', 'face', 'face', 's-black-1', 'nothing'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['nothing', color_4, color_3, color_3, color_3, 's-black-2'],
+                ['nothing', 's-black-2', color_2, color_1, 's-black-2', 'nothing'],
+                ['nothing', 'nothing', 's-black-2', color_1, 's-black-2', 'nothing'],
+                ['nothing', 'nothing', 's-black-3', color_2, 's-black-3', 'nothing']
             ],
             [
-                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
-                ['n', 'sb1', 'sy', 'sy', 'sb1', 'n'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
-                ['sb2', 'e', 'e', 'e', 'e', 'sb2'],
-                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
-                ['n', 'sb3', 'sy', 'sy', 'sb3', 'n'],
-                ['n', 'sb3', 'sb2', 'sb2', 'sb3', 'n']
+                ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
+                ['nothing', 's-black-1', 'face', 'face', 's-black-1', 'nothing'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-2', color_3, color_3, color_3, color_3, 's-black-2'],
+                ['nothing', 's-black-2', color_1, color_1, 's-black-2', 'nothing'],
+                ['nothing', 's-black-3', color_2, color_2, 's-black-3', 'nothing'],
+                ['nothing', 's-black-3', 's-black-2', 's-black-2', 's-black-3', 'nothing']
             ]
         ];
 
         const playerFramesRunLeft = [
             [
-                ['sb3', 'b', 'b', 'sb2', 'sb3', 'n'],
-                ['sb3', 'sy', 'b', 'sb2', 'sb3', 'n'],
-                ['sb2', 'sy', 'y', 'y', 'sb2', 'sb1'],
-                ['y', 'sy', 'sb2', 'y', 'y', 'sb1'],
-                ['sb2', 'sb2', 'e', 'e', 'sb2', 'sb1'],
-                ['sb3', 'y', 'sy', 'y', 'sb2', 'sb3'],
-                ['sb3', 'y', 'sb3', 'y', 'sy', 'sb2'],
-                ['sb3', 'sy', 'sb3', 'sb1', 'sb2', 'sb3']
+                ['s-black-3', 'black', 'black', 's-black-2', 's-black-3', 'nothing'],
+                ['s-black-3', face, 'black', 's-black-2', 's-black-3', 'nothing'],
+                ['s-black-2', color_2, color_1, color_1, 's-black-2', 's-black-1'],
+                [color_1, color_2, 's-black-2', color_1, color_1, 's-black-1'],
+                ['s-black-2', 's-black-2', color_3, color_3, 's-black-2', 's-black-1'],
+                ['s-black-3', color_1, color_2, color_1, 's-black-2', 's-black-3'],
+                ['s-black-3', color_1, 's-black-3', color_1, color_2, 's-black-2'],
+                ['s-black-3', color_2, 's-black-3', 's-black-1', 's-black-2', 's-black-3']
             ],
             [
-                ['sb3', 'b', 'b', 'sb2', 'sb3', 'n'],
-                ['sb3', 'sy', 'b', 'sb2', 'sb3', 'n'],
-                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
-                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
-                ['sb3', 'e', 'e', 'se', 'sb2', 'sb3'],
-                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
-                ['sb3', 'sy', 'y', 'sb2', 'sb2', 'sb3'],
-                ['n', 'sb3', 'sy', 'sb3', 'sb3', 'sb3'],
+                ['s-black-3', 'black', 'black', 's-black-2', 's-black-3', 'nothing'],
+                ['s-black-3', face, 'black', 's-black-2', 's-black-3', 'nothing'],
+                ['s-black-3', color_1, color_1, color_2, 's-black-2', 's-black-3'],
+                ['s-black-3', color_1, color_1, color_2, 's-black-2', 's-black-3'],
+                ['s-black-3', color_3, color_3, color_4, 's-black-2', 's-black-3'],
+                ['s-black-3', color_1, color_1, color_2, 's-black-2', 's-black-3'],
+                ['s-black-3', color_2, color_1, 's-black-2', 's-black-2', 's-black-3'],
+                ['nothing', 's-black-3', color_2, 's-black-3', 's-black-3', 's-black-3'],
             ],
             [
-                ['sb3', 'b', 'b', 'sb2', 'sb3', 'n'],
-                ['sb3', 'sy', 'b', 'sb2', 'sb3', 'n'],
-                ['sb2', 'sy', 'y', 'y', 'sb2', 'sb1'],
-                ['y', 'sy', 'sb2', 'y', 'y', 'sb1'],
-                ['sb2', 'sb2', 'e', 'e', 'sb2', 'sb1'],
-                ['sb3', 'y', 'sy', 'y', 'sb2', 'sb3'],
-                ['sb3', 'y', 'sb3', 'y', 'sy', 'sb2'],
-                ['sb3', 'sy', 'sb3', 'sb1', 'sb2', 'sb3']
+                ['s-black-3', 'black', 'black', 's-black-2', 's-black-3', 'nothing'],
+                ['s-black-3', face, 'black', 's-black-2', 's-black-3', 'nothing'],
+                ['s-black-2', color_2, color_1, color_1, 's-black-2', 's-black-1'],
+                [color_1, color_2, 's-black-2', color_1, color_1, 's-black-1'],
+                ['s-black-2', 's-black-2', color_3, color_3, 's-black-2', 's-black-1'],
+                ['s-black-3', color_1, color_2, color_1, 's-black-2', 's-black-3'],
+                ['s-black-3', color_1, 's-black-3', color_1, color_2, 's-black-2'],
+                ['s-black-3', color_2, 's-black-3', 's-black-1', 's-black-2', 's-black-3']
             ],
             [
-                ['sb3', 'b', 'b', 'sb2', 'sb3', 'n'],
-                ['sb3', 'sy', 'b', 'sb2', 'sb3', 'n'],
-                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
-                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
-                ['sb3', 'e', 'e', 'se', 'sb2', 'sb3'],
-                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
-                ['sb3', 'sy', 'y', 'sb2', 'sb2', 'sb3'],
-                ['n', 'sb3', 'sy', 'sb3', 'sb3', 'sb3'],
+                ['s-black-3', 'black', 'black', 's-black-2', 's-black-3', 'nothing'],
+                ['s-black-3', face, 'black', 's-black-2', 's-black-3', 'nothing'],
+                ['s-black-3', color_1, color_1, color_2, 's-black-2', 's-black-3'],
+                ['s-black-3', color_1, color_1, color_2, 's-black-2', 's-black-3'],
+                ['s-black-3', color_3, color_3, color_4, 's-black-2', 's-black-3'],
+                ['s-black-3', color_1, color_1, color_2, 's-black-2', 's-black-3'],
+                ['s-black-3', color_2, color_1, 's-black-2', 's-black-2', 's-black-3'],
+                ['nothing', 's-black-3', color_2, 's-black-3', 's-black-3', 's-black-3'],
             ],
         ];
 
         const playerFramesRunRight = [
             [
-                ['n', 'sb3', 'sb2', 'b', 'b', 'sb3'],
-                ['n', 'sb3', 'sb2', 'b', 'sy', 'sb3'],
-                ['sb1', 'sb2', 'y', 'y', 'sy', 'sb2'],
-                ['sb1', 'y', 'y', 'sb2', 'sy', 'y'],
-                ['sb1', 'sb2', 'e', 'e', 'sb2', 'sb2'],
-                ['sb3', 'sb2', 'y', 'sy', 'y', 'sb3'],
-                ['sb2', 'sy', 'y', 'sb3', 'y', 'sb3'],
-                ['sb3', 'sb2', 'sb1', 'sb3', 'sy', 'sb3']
+                ['nothing', 's-black-3', 's-black-2', 'black', 'black', 's-black-3'],
+                ['nothing', 's-black-3', 's-black-2', 'black', 'face', 's-black-3'],
+                ['s-black-1', 's-black-2', color_1, color_1, color_2, 's-black-2'],
+                ['s-black-1', color_1, color_1, 's-black-2', color_2, color_1],
+                ['s-black-1', 's-black-2', color_3, color_3, 's-black-2', 's-black-2'],
+                ['s-black-3', 's-black-2', color_1, color_2, color_1, 's-black-3'],
+                ['s-black-2', color_2, color_1, 's-black-3', color_1, 's-black-3'],
+                ['s-black-3', 's-black-2', 's-black-1', 's-black-3', color_2, 's-black-3']
             ],
             [
-                ['n', 'sb3', 'sb2', 'b', 'b', 'sb3'],
-                ['n', 'sb3', 'sb2', 'b', 'sy', 'sb3'],
-                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
-                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
-                ['sb3', 'sb2', 'se', 'e', 'e', 'sb3'],
-                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
-                ['sb3', 'sb2', 'sb2', 'y', 'sy', 'sb3'],
-                ['sb3', 'sb3', 'sb3', 'sy', 'sb3', 'n']
+                ['nothing', 's-black-3', 's-black-2', 'black', 'black', 's-black-3'],
+                ['nothing', 's-black-3', 's-black-2', 'black', 'face', 's-black-3'],
+                ['s-black-3', 's-black-2', color_2, color_1, color_1, 's-black-3'],
+                ['s-black-3', 's-black-2', color_2, color_1, color_1, 's-black-3'],
+                ['s-black-3', 's-black-2', color_4, color_3, color_3, 's-black-3'],
+                ['s-black-3', 's-black-2', color_2, color_1, color_1, 's-black-3'],
+                ['s-black-3', 's-black-2', 's-black-2', color_1, color_2, 's-black-3'],
+                ['s-black-3', 's-black-3', 's-black-3', color_2, 's-black-3', 'nothing']
 
             ],
             [
-                ['n', 'sb3', 'sb2', 'b', 'b', 'sb3'],
-                ['n', 'sb3', 'sb2', 'b', 'sy', 'sb3'],
-                ['sb1', 'sb2', 'y', 'y', 'sy', 'sb2'],
-                ['sb1', 'y', 'y', 'sb2', 'sy', 'y'],
-                ['sb1', 'sb2', 'e', 'e', 'sb2', 'sb2'],
-                ['sb3', 'sb2', 'y', 'sy', 'y', 'sb3'],
-                ['sb2', 'sy', 'y', 'sb3', 'y', 'sb3'],
-                ['sb3', 'sb2', 'sb1', 'sb3', 'sy', 'sb3']
+                ['nothing', 's-black-3', 's-black-2', 'black', 'black', 's-black-3'],
+                ['nothing', 's-black-3', 's-black-2', 'black', 'face', 's-black-3'],
+                ['s-black-1', 's-black-2', color_1, color_1, color_2, 's-black-2'],
+                ['s-black-1', color_1, color_1, 's-black-2', color_2, color_1],
+                ['s-black-1', 's-black-2', color_3, color_3, 's-black-2', 's-black-2'],
+                ['s-black-3', 's-black-2', color_1, color_2, color_1, 's-black-3'],
+                ['s-black-2', color_2, color_1, 's-black-3', color_1, 's-black-3'],
+                ['s-black-3', 's-black-2', 's-black-1', 's-black-3', color_2, 's-black-3']
             ],
             [
-                ['n', 'sb3', 'sb2', 'b', 'b', 'sb3'],
-                ['n', 'sb3', 'sb2', 'b', 'sy', 'sb3'],
-                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
-                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
-                ['sb3', 'sb2', 'se', 'e', 'e', 'sb3'],
-                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
-                ['sb3', 'sb2', 'sb2', 'y', 'sy', 'sb3'],
-                ['sb3', 'sb3', 'sb3', 'sy', 'sb3', 'n']
+                ['nothing', 's-black-3', 's-black-2', 'black', 'black', 's-black-3'],
+                ['nothing', 's-black-3', 's-black-2', 'black', 'face', 's-black-3'],
+                ['s-black-3', 's-black-2', color_2, color_1, color_1, 's-black-3'],
+                ['s-black-3', 's-black-2', color_2, color_1, color_1, 's-black-3'],
+                ['s-black-3', 's-black-2', color_4, color_3, color_3, 's-black-3'],
+                ['s-black-3', 's-black-2', color_2, color_1, color_1, 's-black-3'],
+                ['s-black-3', 's-black-2', 's-black-2', color_1, color_2, 's-black-3'],
+                ['s-black-3', 's-black-3', 's-black-3', color_2, 's-black-3', 'nothing']
 
             ],
         ];
@@ -279,7 +327,7 @@
             for (let y = 0; y < matrix.length; y++) {
                 for (let x = 0; x < matrix[y].length; x++) {
                     const color = matrix[y][x];
-                    if (color !== 'n') {
+                    if (color !== 'nothing') {
                         const index = (offsetY + y) * 100 + (offsetX + x);
                         fieldPixels[index] = color;
                     }
@@ -290,7 +338,7 @@
         let frameIndex = 0;
 
         function animate() {
-            fieldPixels.fill('g');
+            fieldPixels.fill('grass');
 
             drawSprite(playerFramesRunFront[frameIndex], 10, 5);
             drawSprite(playerFramesRunLeft[frameIndex], 30, 5);
