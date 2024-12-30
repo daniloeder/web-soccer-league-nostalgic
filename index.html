@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soccer League</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black;
+        }
+
+        .field {
+            display: grid;
+            grid-template-columns: repeat(100, 2px);
+            grid-auto-rows: 2px;
+            grid-gap: 3px;
+            border: 1px solid white;
+            padding: 5px;
+        }
+
+        .pixel {
+            width: 3.5px;
+            height: 3.5px;
+            border-radius: 1.2px;
+        }
+
+        .n {
+            background-color: transparent;
+        }
+
+        .b {
+            background-color: black;
+        }
+
+        .sb1 {
+            background-color: #213b21;
+        }
+
+        .sb2 {
+            background-color: #315731;
+        }
+
+        .sb3 {
+            background-color: #467c46;
+        }
+
+        .g {
+            background-color: #67b667;
+        }
+
+        .sg {
+            background-color: #8fc98f;
+        }
+
+        .y {
+            background-color: yellow;
+        }
+
+        .sy {
+            background-color: #c0c000;
+        }
+
+        .e {
+            background-color: #0000FF;
+        }
+
+        .se {
+            background-color: #0000c0;
+        }
+
+        .w {
+            background-color: white;
+        }
+
+        .sw {
+            background-color: #c0c0c0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="field" id="field"></div>
+    <script>
+        const fieldPixels = Array(600 * 20).fill('g');
+
+        const playerFramesRunFront = [
+            [
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'e', 'e', 'e', 'se', 'n'],
+                ['sb2', 'y', 'sy', 'y', 'sb2', 'n'],
+                ['sb2', 'y', 'sb2', 'sb2', 'n', 'n'],
+                ['n', 'sb2', 'sb2', 'n', 'n', 'n']
+            ],
+            [
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'e', 'e', 'e', 'e', 'sb2'],
+                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
+                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
+                ['n', 'n', 'sb3', 'sb3', 'n', 'n']
+            ],
+            [
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['n', 'se', 'e', 'e', 'e', 'sb2'],
+                ['n', 'sb2', 'y', 'sy', 'y', 'sb2'],
+                ['n', 'n', 'sb2', 'sb2', 'y', 'sb2'],
+                ['n', 'n', 'n', 'sb3', 'sb3', 'n']
+            ],
+            [
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'e', 'e', 'e', 'e', 'sb2'],
+                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
+                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
+                ['n', 'n', 'sb3', 'sb3', 'n', 'n']
+            ]
+        ];
+
+        const playerFramesRunBack = [
+            [
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['n', 'sb1', 'sy', 'sy', 'sb1', 'n'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'e', 'e', 'e', 'se', 'n'],
+                ['n', 'sb2', 'y', 'sy', 'sb2', 'n'],
+                ['n', 'sb2', 'y', 'sb2', 'n', 'n'],
+                ['n', 'sb3', 'sy', 'sb3', 'n', 'n']
+            ],
+            [
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['n', 'sb1', 'sy', 'sy', 'sb1', 'n'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'e', 'e', 'e', 'e', 'sb2'],
+                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
+                ['n', 'sb3', 'sy', 'sy', 'sb3', 'n'],
+                ['n', 'sb3', 'sb2', 'sb2', 'sb3', 'n']
+            ],
+            [
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['n', 'sb1', 'sy', 'sy', 'sb1', 'n'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['n', 'se', 'e', 'e', 'e', 'sb2'],
+                ['n', 'sb2', 'sy', 'y', 'sb2', 'n'],
+                ['n', 'n', 'sb2', 'y', 'sb2', 'n'],
+                ['n', 'n', 'sb3', 'sy', 'sb3', 'n']
+            ],
+            [
+                ['n', 'sb3', 'b', 'b', 'sb3', 'n'],
+                ['n', 'sb1', 'sy', 'sy', 'sb1', 'n'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'y', 'y', 'y', 'y', 'sb2'],
+                ['sb2', 'e', 'e', 'e', 'e', 'sb2'],
+                ['n', 'sb2', 'y', 'y', 'sb2', 'n'],
+                ['n', 'sb3', 'sy', 'sy', 'sb3', 'n'],
+                ['n', 'sb3', 'sb2', 'sb2', 'sb3', 'n']
+            ]
+        ];
+
+        const playerFramesRunLeft = [
+            [
+                ['sb3', 'b', 'b', 'sb2', 'sb3', 'n'],
+                ['sb3', 'sy', 'b', 'sb2', 'sb3', 'n'],
+                ['sb2', 'sy', 'y', 'y', 'sb2', 'sb1'],
+                ['y', 'sy', 'sb2', 'y', 'y', 'sb1'],
+                ['sb2', 'sb2', 'e', 'e', 'sb2', 'sb1'],
+                ['sb3', 'y', 'sy', 'y', 'sb2', 'sb3'],
+                ['sb3', 'y', 'sb3', 'y', 'sy', 'sb2'],
+                ['sb3', 'sy', 'sb3', 'sb1', 'sb2', 'sb3']
+            ],
+            [
+                ['sb3', 'b', 'b', 'sb2', 'sb3', 'n'],
+                ['sb3', 'sy', 'b', 'sb2', 'sb3', 'n'],
+                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
+                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
+                ['sb3', 'e', 'e', 'se', 'sb2', 'sb3'],
+                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
+                ['sb3', 'sy', 'y', 'sb2', 'sb2', 'sb3'],
+                ['n', 'sb3', 'sy', 'sb3', 'sb3', 'sb3'],
+            ],
+            [
+                ['sb3', 'b', 'b', 'sb2', 'sb3', 'n'],
+                ['sb3', 'sy', 'b', 'sb2', 'sb3', 'n'],
+                ['sb2', 'sy', 'y', 'y', 'sb2', 'sb1'],
+                ['y', 'sy', 'sb2', 'y', 'y', 'sb1'],
+                ['sb2', 'sb2', 'e', 'e', 'sb2', 'sb1'],
+                ['sb3', 'y', 'sy', 'y', 'sb2', 'sb3'],
+                ['sb3', 'y', 'sb3', 'y', 'sy', 'sb2'],
+                ['sb3', 'sy', 'sb3', 'sb1', 'sb2', 'sb3']
+            ],
+            [
+                ['sb3', 'b', 'b', 'sb2', 'sb3', 'n'],
+                ['sb3', 'sy', 'b', 'sb2', 'sb3', 'n'],
+                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
+                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
+                ['sb3', 'e', 'e', 'se', 'sb2', 'sb3'],
+                ['sb3', 'y', 'y', 'sy', 'sb2', 'sb3'],
+                ['sb3', 'sy', 'y', 'sb2', 'sb2', 'sb3'],
+                ['n', 'sb3', 'sy', 'sb3', 'sb3', 'sb3'],
+            ],
+        ];
+
+        const playerFramesRunRight = [
+            [
+                ['n', 'sb3', 'sb2', 'b', 'b', 'sb3'],
+                ['n', 'sb3', 'sb2', 'b', 'sy', 'sb3'],
+                ['sb1', 'sb2', 'y', 'y', 'sy', 'sb2'],
+                ['sb1', 'y', 'y', 'sb2', 'sy', 'y'],
+                ['sb1', 'sb2', 'e', 'e', 'sb2', 'sb2'],
+                ['sb3', 'sb2', 'y', 'sy', 'y', 'sb3'],
+                ['sb2', 'sy', 'y', 'sb3', 'y', 'sb3'],
+                ['sb3', 'sb2', 'sb1', 'sb3', 'sy', 'sb3']
+            ],
+            [
+                ['n', 'sb3', 'sb2', 'b', 'b', 'sb3'],
+                ['n', 'sb3', 'sb2', 'b', 'sy', 'sb3'],
+                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
+                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
+                ['sb3', 'sb2', 'se', 'e', 'e', 'sb3'],
+                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
+                ['sb3', 'sb2', 'sb2', 'y', 'sy', 'sb3'],
+                ['sb3', 'sb3', 'sb3', 'sy', 'sb3', 'n']
+
+            ],
+            [
+                ['n', 'sb3', 'sb2', 'b', 'b', 'sb3'],
+                ['n', 'sb3', 'sb2', 'b', 'sy', 'sb3'],
+                ['sb1', 'sb2', 'y', 'y', 'sy', 'sb2'],
+                ['sb1', 'y', 'y', 'sb2', 'sy', 'y'],
+                ['sb1', 'sb2', 'e', 'e', 'sb2', 'sb2'],
+                ['sb3', 'sb2', 'y', 'sy', 'y', 'sb3'],
+                ['sb2', 'sy', 'y', 'sb3', 'y', 'sb3'],
+                ['sb3', 'sb2', 'sb1', 'sb3', 'sy', 'sb3']
+            ],
+            [
+                ['n', 'sb3', 'sb2', 'b', 'b', 'sb3'],
+                ['n', 'sb3', 'sb2', 'b', 'sy', 'sb3'],
+                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
+                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
+                ['sb3', 'sb2', 'se', 'e', 'e', 'sb3'],
+                ['sb3', 'sb2', 'sy', 'y', 'y', 'sb3'],
+                ['sb3', 'sb2', 'sb2', 'y', 'sy', 'sb3'],
+                ['sb3', 'sb3', 'sb3', 'sy', 'sb3', 'n']
+
+            ],
+        ];
+
+        const fieldElement = document.getElementById('field');
+
+        function createField(pixels) {
+            fieldElement.innerHTML = '';
+            pixels.forEach(color => {
+                const pixel = document.createElement('div');
+                pixel.className = `pixel ${color}`;
+                fieldElement.appendChild(pixel);
+            });
+        }
+
+        function drawSprite(matrix, offsetX, offsetY) {
+            for (let y = 0; y < matrix.length; y++) {
+                for (let x = 0; x < matrix[y].length; x++) {
+                    const color = matrix[y][x];
+                    if (color !== 'n') {
+                        const index = (offsetY + y) * 100 + (offsetX + x);
+                        fieldPixels[index] = color;
+                    }
+                }
+            }
+        }
+
+        let frameIndex = 0;
+
+        function animate() {
+            fieldPixels.fill('g');
+
+            drawSprite(playerFramesRunFront[frameIndex], 10, 5);
+            drawSprite(playerFramesRunLeft[frameIndex], 30, 5);
+            drawSprite(playerFramesRunRight[frameIndex], 50, 5);
+            drawSprite(playerFramesRunBack[frameIndex], 70, 5);
+
+            createField(fieldPixels);
+
+            frameIndex = (frameIndex + 1) % playerFramesRunFront.length;
+        }
+
+        setInterval(animate, 280);
+    </script>
+
+</body>
+
+</html>
