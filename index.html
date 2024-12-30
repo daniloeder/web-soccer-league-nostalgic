@@ -113,8 +113,6 @@
     <div class="field" id="field"></div>
 
     <script>
-        const fieldPixels = Array(600 * 20).fill('grass');
-
         const country = 'brazil';
 
         const countries = {
@@ -186,8 +184,8 @@
                 ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
                 ['nothing', 's-black-1', 'face', 'face', 's-black-1', 'nothing'],
                 ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
-                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
-                ['s-black-2', color_3, color_3, color_3, color_4, 'nothing'],
+                ['s-black-2', color_2, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-3', color_3, color_3, color_3, color_4, 's-black-3'],
                 ['nothing', 's-black-2', color_1, color_2, 's-black-2', 'nothing'],
                 ['nothing', 's-black-2', color_1, 's-black-2', 'nothing', 'nothing'],
                 ['nothing', 's-black-3', color_2, 's-black-3', 'nothing', 'nothing']
@@ -196,8 +194,8 @@
                 ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
                 ['nothing', 's-black-1', 'face', 'face', 's-black-1', 'nothing'],
                 ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
-                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
-                ['s-black-2', color_3, color_3, color_3, color_3, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_2, 's-black-2'],
+                ['s-black-3', color_3, color_3, color_3, color_3, 's-black-3'],
                 ['nothing', 's-black-2', color_1, color_1, 's-black-2', 'nothing'],
                 ['nothing', 's-black-3', color_2, color_2, 's-black-3', 'nothing'],
                 ['nothing', 's-black-3', 's-black-2', 's-black-2', 's-black-3', 'nothing']
@@ -206,8 +204,8 @@
                 ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
                 ['nothing', 's-black-1', 'face', 'face', 's-black-1', 'nothing'],
                 ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
-                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
-                ['nothing', color_4, color_3, color_3, color_3, 's-black-2'],
+                ['s-black-2', color_2, color_1, color_1, color_1, 's-black-2'],
+                ['s-black-3', color_4, color_3, color_3, color_3, 's-black-3'],
                 ['nothing', 's-black-2', color_2, color_1, 's-black-2', 'nothing'],
                 ['nothing', 'nothing', 's-black-2', color_1, 's-black-2', 'nothing'],
                 ['nothing', 'nothing', 's-black-3', color_2, 's-black-3', 'nothing']
@@ -216,8 +214,8 @@
                 ['nothing', 's-black-3', 'black', 'black', 's-black-3', 'nothing'],
                 ['nothing', 's-black-1', 'face', 'face', 's-black-1', 'nothing'],
                 ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
-                ['s-black-2', color_1, color_1, color_1, color_1, 's-black-2'],
-                ['s-black-2', color_3, color_3, color_3, color_3, 's-black-2'],
+                ['s-black-2', color_1, color_1, color_1, color_2, 's-black-2'],
+                ['s-black-3', color_3, color_3, color_3, color_3, 's-black-3'],
                 ['nothing', 's-black-2', color_1, color_1, 's-black-2', 'nothing'],
                 ['nothing', 's-black-3', color_2, color_2, 's-black-3', 'nothing'],
                 ['nothing', 's-black-3', 's-black-2', 's-black-2', 's-black-3', 'nothing']
@@ -312,7 +310,21 @@
             ],
         ];
 
+        const fieldPixels = Array(600 * 20).fill('grass');
+
         const fieldElement = document.getElementById('field');
+
+        // Player state
+        let playerX = 10;
+        let playerY = 10;
+        let currentFrames = playerFramesRunFront;
+        let frameIndex = 0;
+        let moving = false;
+        let moveDirection = { dx: 0, dy: 0 };
+
+        // Animation timing
+        let frameUpdateInterval = 150; // Time (ms) between frame changes
+        let lastFrameTime = Date.now();
 
         function createField(pixels) {
             fieldElement.innerHTML = '';
@@ -335,22 +347,60 @@
             }
         }
 
-        let frameIndex = 0;
+        function movePlayer() {
+            if (!moving) return;
+
+            // Update player position with a faster movement speed
+            playerX += moveDirection.dx * 2; // Move 2 pixels at a time
+            playerY += moveDirection.dy * 2;
+
+            // Ensure the player stays within bounds
+            playerX = Math.max(0, Math.min(100 - 6, playerX)); // Horizontal bounds
+            playerY = Math.max(0, Math.min(112, playerY)); // Vertical bounds
+        }
 
         function animate() {
             fieldPixels.fill('grass');
 
-            drawSprite(playerFramesRunFront[frameIndex], 10, 5);
-            drawSprite(playerFramesRunLeft[frameIndex], 30, 5);
-            drawSprite(playerFramesRunRight[frameIndex], 50, 5);
-            drawSprite(playerFramesRunBack[frameIndex], 70, 5);
+            // Move the player
+            movePlayer();
 
+            // Update animation frame based on timing
+            const currentTime = Date.now();
+            if (currentTime - lastFrameTime >= frameUpdateInterval) {
+                frameIndex = (frameIndex + 1) % currentFrames.length;
+                lastFrameTime = currentTime;
+            }
+
+            // Draw the current animation frame
+            drawSprite(currentFrames[frameIndex], playerX, playerY);
+
+            // Render the field
             createField(fieldPixels);
-
-            frameIndex = (frameIndex + 1) % playerFramesRunFront.length;
         }
 
-        setInterval(animate, 280);
+        function startMoving(dx, dy, frames) {
+            moveDirection = { dx, dy };
+            currentFrames = frames;
+            moving = true;
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowUp') {
+                startMoving(0, -1, playerFramesRunFront);
+            } else if (event.key === 'ArrowDown') {
+                startMoving(0, 1, playerFramesRunBack);
+            } else if (event.key === 'ArrowLeft') {
+                startMoving(-1, 0, playerFramesRunLeft);
+            } else if (event.key === 'ArrowRight') {
+                startMoving(1, 0, playerFramesRunRight);
+            }
+        });
+
+        // Start the animation loop
+        setInterval(animate, 80); // High frequency for smooth movement
+
+
     </script>
 
 </body>
